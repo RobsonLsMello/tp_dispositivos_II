@@ -524,7 +524,7 @@ let exercicio1_15_setembro = () =>{
                 <td>${grandezas[i-1][0]}</td>
                 <td>${grandezas[i-1][1]}</td>
                 <td>${grandezas[i-1][2]}</td>
-                <td>${Math.fround(respostasEx1_15_setembro[i])}</td>
+                <td>${Math.round(respostasEx1_15_setembro[i])}</td>
             </tr>`;
     }
 }
