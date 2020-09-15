@@ -68,6 +68,9 @@ class Amplificador{
                         this.vout += (this.r2/this.rSomador[i])*this.vSomador[0];
                     }
                 break;
+                case 5://seguidor de tensao
+                    this.vout = this.positive ;
+                break;
             }
             //efetuar comparacao de saturacao
             this.vout = (this.vout > this.saturacao ? this.saturacao : this.vout);
@@ -92,6 +95,7 @@ class Amplificador{
                 if(this.positive == 0) 
                     this.positive = this.r2 == 0 || this.r3 == 0 ? 0 : (this.vout + ((this.r4/this.r3)*this.negative))* this.r1/(this.r2);       
             break;
+            
         }
     }
 
@@ -144,6 +148,7 @@ const tipoAmplificador = {
     "inversor":1,
     "naoInversor":2,
     "comparador":3,
-    "naoInversor-somador":4
+    "naoInversor-somador":4,
+    'seguidor-tensao': 5
 }
 
