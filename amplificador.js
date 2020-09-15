@@ -1,5 +1,5 @@
 class Amplificador{
-    constructor(r1,r2,r3,r4,positive, negative, _tipoAmplificador, saturacao, ganho = 0, vout = 0, rc = 0, sr = 0, vSomador = [], rSomador = []){
+    constructor(r1,r2,r3,r4,positive, negative, _tipoAmplificador, saturacao, ganho = 0, vout = 0, rc = 0, sr = 0, vSomador = [], rSomador = [], c = 0, t = 0, vInicial = 0){
         let grandezas = ["r1","r2","r3","r4","positive","negative", "tipoAmplificador", "saturacao", "ganho", "vout"];
         this.r1= r1;//baixo
         this.r2= r2;//cima        
@@ -7,6 +7,9 @@ class Amplificador{
         this.r4= r4;//baixo
         this.rc = rc;
         this.sr = sr;
+        this.c = c;
+        this.t = t;
+        this.vInicial = vInicial;
         this.positive= positive;
         this.negative= negative;        
         this.tipoAmplificador = _tipoAmplificador;
@@ -65,11 +68,20 @@ class Amplificador{
                 break;
                 case 4://nao inversor somador
                     for(let i = 0; i < this.vSomador.length; i++){
-                        this.vout += (this.r2/this.rSomador[i])*this.vSomador[0];
+                        this.vout += (this.r2/this.rSomador[i])*this.vSomador[i];
                     }
                 break;
                 case 5://seguidor de tensao
                     this.vout = this.positive ;
+                break;
+                case 6://ssinversor somador
+                    for(let i = 0; i < this.vSomador.length; i++){
+                        this.vout += -1*(this.r2/this.rSomador[i])*this.vSomador[i];
+                    }
+                break;
+                case 7:
+                    let l = this.negative/this.r1;
+                    this.vout = -(l*this.t/this.c) + this.vInicial;
                 break;
             }
             //efetuar comparacao de saturacao
@@ -149,6 +161,8 @@ const tipoAmplificador = {
     "naoInversor":2,
     "comparador":3,
     "naoInversor-somador":4,
-    'seguidor-tensao': 5
+    "inversor-somador":6,
+    'seguidor-tensao': 5,
+    'integral': 7
 }
 

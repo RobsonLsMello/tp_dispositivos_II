@@ -486,6 +486,65 @@ let exercicio3_18_agosto = () =>{
             </tr>`;
     })
 }
+let exercicio2_15_setembro_model = (v1,v2, t, vInicial, isConsole=false) =>{
+    let u1 = new Amplificador(20000, 10000, 0,0, 0,v1, tipoAmplificador.inversor, 12);
+    let u2 = new Amplificador(10000, 10000, 0,0,v2,0,tipoAmplificador.naoInversor,12);
+    let u5 = new Amplificador(20000, 10000, 0,0,0,2,tipoAmplificador.inversor, 12);
+    let u3 = new Amplificador(0, 10000, 0,0,0,0,tipoAmplificador["inversor-somador"], 12, 0,0,0,0,[u1.vout,u2.vout, u5.vout], [10000, 20000, 5000]);
+    let u4 = new Amplificador(100000, 0,0,0,0,u3.vout, tipoAmplificador.integral,120,0,0,0,0,[],[],10*Math.pow(10,-6), t, vInicial);
+    if(isConsole){
+        console.log(u1);
+        console.log(u2);
+        console.log(u5);
+        console.log(u3);
+        console.log(u4);
+        console.log("-------------------------------------------------")
+    }
+    return u4.vout;
+}
+
+let exercicio1_15_setembro_model = (v1,v2, t, vInicial) =>{
+    let u1 = new Amplificador(20000, 10000, 0,0, 0,v1, tipoAmplificador.inversor, 12);
+    let u2 = new Amplificador(10000, 10000, 0,0, v2, 0,tipoAmplificador.naoInversor, 12);
+    let u3 = new Amplificador(0, 10000, 0,0,0,0,tipoAmplificador["inversor-somador"], 12,0,0,0,0,[u1.vout, u2.vout], [5000, 20000]);
+    let u4 = new Amplificador(100000, 0,0,0,0, u3.vout, tipoAmplificador.integral, 12, 0,0,0,0,[],[], 10*Math.pow(10,-6), t, vInicial);
+    
+    return u4.vout;
+}
+let exercicio1_15_setembro = () =>{
+    let respostasEx1_15_setembro = [];
+    respostasEx1_15_setembro.push(0);
+    let grandezas = [[+2,+1,1],[+2,+2,1],[-1,-1,2],[-4,-1,1],[+1,-2,1],[-1,-2,2],[+4,+2,1],[-4,+1,1],[-2,-2,4],[+1,+1,1],[-4,-2,1],[-3,+2,1],[+2,-1,3],[-6,-2,2],[+4,+4,1]]
+    grandezas.forEach(g=>{
+        respostasEx1_15_setembro.push(exercicio1_15_setembro_model(g[0],g[1],g[2], respostasEx1_15_setembro[respostasEx1_15_setembro.length-1]));
+    })
+    for(let i = 1; i < respostasEx1_15_setembro.length; i++){
+        document.querySelector("#ex1_15-09 tbody").innerHTML += 
+            `<tr>
+                <td>${grandezas[i-1][0]}</td>
+                <td>${grandezas[i-1][1]}</td>
+                <td>${grandezas[i-1][2]}</td>
+                <td>${Math.fround(respostasEx1_15_setembro[i])}</td>
+            </tr>`;
+    }
+}
+let exercicio2_15_setembro = () =>{
+    let respostasEx2_15_setembro = [];
+    respostasEx2_15_setembro.push(0);
+    let grandezas = [[1,1,1],[1,0,2],[-2,-1,3],[2,2,4],[0,1,5],[-1,-1,6]];
+    grandezas.forEach(g=>{
+        respostasEx2_15_setembro.push(exercicio2_15_setembro_model(g[0],g[1],1, respostasEx2_15_setembro[respostasEx2_15_setembro.length-1], g[0] == 2 ? true : false));
+    })
+    for(let i = 1; i < respostasEx2_15_setembro.length; i++){
+        document.querySelector("#ex2_15-09 tbody").innerHTML += 
+            `<tr>
+                <td>${grandezas[i-1][0]}</td>
+                <td>${grandezas[i-1][1]}</td>
+                <td>${grandezas[i-1][2]}</td>
+                <td>${Math.fround(respostasEx2_15_setembro[i])}</td>
+            </tr>`;
+    }
+}
 let exercicio4_18_agosto = () =>{
     let respostasEx4_18_agosto = [];
     respostasEx4_18_agosto.push(exercicio4_18_agosto_model([1,1,1], [2000,1000,4000],2000));
@@ -520,9 +579,11 @@ exercicio1_11_agosto();
 exercicio1_18_agosto();
 exercicio1_25_agosto();
 exercicio1_01_setembro();
+exercicio1_15_setembro();
 exercicio2_11_agosto();
 exercicio2_18_agosto();
 exercicio2_25_agosto();
+exercicio2_15_setembro();
 exercicio3_11_agosto();
 exercicio3_18_agosto();
 exercicio3_25_agosto();
