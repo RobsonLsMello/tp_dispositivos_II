@@ -68,7 +68,7 @@ class Amplificador{
                 break;
                 case 4://nao inversor somador
                     for(let i = 0; i < this.vSomador.length; i++){
-                        this.vout += (this.r2/this.rSomador[i])*this.vSomador[i];
+                        this.vout += (this.r2/this.rSomador[i])*this.vSomador[i]*-1;
                     }
                 break;
                 case 5://seguidor de tensao

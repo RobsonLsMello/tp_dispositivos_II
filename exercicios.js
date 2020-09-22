@@ -511,6 +511,51 @@ let exercicio1_15_setembro_model = (v1,v2, t, vInicial) =>{
     
     return u4.vout;
 }
+let exercicio3_15_setembro_model = (v1,v2, v3,v4) =>{
+    let u1 = new Amplificador(10000,10000,0,0,0,v1,tipoAmplificador.inversor, 12);
+    let u2 = new Amplificador(10000,10000,0,0,v2,0,tipoAmplificador.naoInversor,12);
+    let u3 = new Amplificador(0,0,0,0,v3,0,tipoAmplificador["seguidor-tensao"],12);
+    
+    let u4 = new Amplificador(0,10000, 0,0,0,0,tipoAmplificador["inversor-somador"],12,0,0,0,0,[u1.vout,u2.vout],[10000,20000]);
+    
+    let u6 = new Amplificador(20000,10000, 0,0,0,u3.vout,tipoAmplificador.inversor,12);
+    
+    let u5 = new Amplificador(0,10000, 0,0, 0,0,tipoAmplificador["inversor-somador"], 12,0,0,0,0,[u4.vout,u6.vout], [20000,10000]);
+
+    let u8 = new Amplificador(0,0,0,0,v4, 0,tipoAmplificador["seguidor-tensao"], 12);
+    
+    let u7 = new Amplificador(20000,10000, 20000,10000, u8.vout, u5.vout, tipoAmplificador.comparador, 12);
+    
+    return [v1,v2,v3,v4,u7.vout];
+}
+let exercicio3_15_setembro = () =>{
+    let respostasEx3_15_setembro = [];
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+2,+1,+2,+4));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+1,+2,+1,+2));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(-1,-1,-2,-2));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(-2,-1,-2,-4));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+1,-1,+2,+1));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(-1,-2,-2,-1));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+2,+2,+2,+2));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(-1,-2,-1,+3));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+2,-1,-5,-3));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+1,+1,+4,-4));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(-3,-2,+3,+2));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+3,+2,-3,+3));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+2,-1,+2,-4));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(-1,-2,-3,-2));
+    respostasEx3_15_setembro.push(exercicio3_15_setembro_model(+2,+4,-3,-3));
+    respostasEx3_15_setembro.forEach(resp =>{
+        document.querySelector("#ex3_15-09 tbody").innerHTML += 
+            `<tr>
+                <td>${resp[0]}</td>
+                <td>${resp[1]}</td>
+                <td>${resp[2]}</td>
+                <td>${resp[3]}</td>
+                <td>${resp[4]}</td>
+            </tr>`;
+    })
+}
 let exercicio1_15_setembro = () =>{
     let respostasEx1_15_setembro = [];
     respostasEx1_15_setembro.push(0);
@@ -588,6 +633,7 @@ exercicio3_11_agosto();
 exercicio3_18_agosto();
 exercicio3_25_agosto();
 exercicio3_01_setembro();
+exercicio3_15_setembro();
 exercicio4_18_agosto();
 exercicio4_25_agosto();
 exercicio4_01_setembro();
